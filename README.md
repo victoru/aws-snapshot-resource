@@ -2,6 +2,14 @@
 
 Tracks AWS snapshots 
 
+## AWS IAM permissions
+
+The following permissions are required for this resource to run properly.
+
+```
+rds:DescribeDBClusterSnapshots
+rds:DescribeDBSnapshots
+```
 
 ## Source Configuration
 
