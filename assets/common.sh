@@ -65,13 +65,13 @@ describe_cmd() {
   fi
 
   if [ -n "$snapshot_identifier" ]; then
-    local snif='| [?DBClusterSnapshotIdentifier==`'"$snapshot_identifier"'`]'
+    local snif='| [?'"$prefix"'SnapshotIdentifier==`'"$snapshot_identifier"'`]'
   fi
 
   prefix=$(get_kind_prefix $payload)
   aws rds "$rds_sub_cmd" \
       --output json \
-      --query 'DBClusterSnapshots[?'"$prefix"'Identifier==`'"$identifier"'`]
+      --query ''"$prefix"'Snapshots[?'"$prefix"'Identifier==`'"$identifier"'`]
             | sort_by([], &SnapshotCreateTime) '"$snif"'' \
       $region_arg $snapshot_type_arg $include_shared_arg
 }
