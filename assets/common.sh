@@ -4,14 +4,18 @@ metadata_basic() {
   snapshot_json=$1 
   prefix=$2
 
+  if [ "$prefix" = 'DB' ]; then
+    local prefix2="Instance"
+  fi
+
   local snapshotCreateTime=$( echo $snapshot_json | jq .SnapshotCreateTime)
   local snapshotIdentifier=$( echo $snapshot_json | jq .${prefix}SnapshotIdentifier)
-  local identifier=$( echo $snapshot_json | jq .${prefix}Identifier)
+  local identifier=$( echo $snapshot_json | jq .${prefix}${prefix2}Identifier)
 
   jq ". + [
-    {name: \"SnapshotCreateTime\", value: ${snapshotCreateTime}},
+    {name: \"SnapshotCreateTime\", value: ${snapshotCreateTime}, type: \"time\"},
     {name: \"${prefix}SnapshotIdentifier\", value: ${snapshotIdentifier}},
-    {name: \"${prefix}Identifier\", value: ${identifier}, type: \"time\"}
+    {name: \"${prefix}${prefix2}Identifier\", value: ${identifier}}
   ]"
 }
 
