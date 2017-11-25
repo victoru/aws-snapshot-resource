@@ -15,7 +15,7 @@ rds:DescribeDBSnapshots
 
 * `identifier`: *Required.* The identifier of the snapshot kind to restore. i.e.
    The value of `.DBClusterSnapshot.DBClusterIdentifier` if the snapshot is from 
-   a cluster or `.DBSnapshot.DBIdentifier` if the snapshot is from an instance.
+   a cluster or `.DBSnapshot.DBInstanceIdentifier` if the snapshot is from an instance.
 
 * `kind`: *Optional.* The kind of snapshot to track (i.e. cluster or instance.) 
   Defaults to "instance"
