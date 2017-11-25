@@ -98,25 +98,11 @@ configure_credentials() {
   if [ "$AWS_ACCESS_KEY_ID" != "" -a "$AWS_SECRET_ACCESS_KEY" != "" ]; then
     echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
     echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-  #else
-      #echo "skipping ec2 metadata provisioning"
-      #set +e
-	  #aws rds describe-db-instances --region $region > /dev/null 2>&1
-      #set -e
-      #if [ $? -ne 0 ]; then
-        #role=$(curl -sSL http://169.254.169.254/latest/meta-data/iam/security-credentials/)
-        #export AWS_ACCESS_KEY_ID=$(curl -sSL http://169.254.169.254/latest/meta-data/iam/security-credentials/${role} | jq -r '.AccessKeyId')
-        #set +x
-        #export AWS_SESSION_TOKEN=$(curl -sSL http://169.254.169.254/latest/meta-data/iam/security-credentials/${role} | jq -r '.Token')
-        #export AWS_SECRET_ACCESS_KEY=$(curl -sSL http://169.254.169.254/latest/meta-data/iam/security-credentials/${role} | jq -r '.SecretAccessKey')
-        #aws iam get-user > /dev/null 2>&1
-        #if [ ! $? -eq 0]; then
-          #echo "unable to obtain AWS credentials"
-          #exit 44
-        #fi
-        #echo "using ec2 instance profile credentials"
-      #else
-        #aws rds describe-db-instances --region $region
-      #fi
+  fi
+
+  aws rds describe-db-instances --region $region > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "unable to obtain AWS credentials"
+    exit 44
   fi
 }
