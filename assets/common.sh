@@ -72,7 +72,7 @@ describe_cmd() {
   aws rds "$rds_sub_cmd" \
       --output json \
       --query 'DBClusterSnapshots[?'"$prefix"'Identifier==`'"$identifier"'`]
-            | sort_by([], &SnapshotCreateTime '"$snif"' )' \
+            | sort_by([], &SnapshotCreateTime) '"$snif"'' \
       $region_arg $snapshot_type_arg $include_shared_arg
 }
 
